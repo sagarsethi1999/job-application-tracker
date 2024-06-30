@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Save Job</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script defer src="js/jobs.js"></script>
+</head>
+<body>
+    <div class="header">
+        <h1>Save Job</h1>
+    </div>
+    <div class="container">
+        <form id="jobForm">
+            <input type="text" id="companyId" placeholder="Company ID" required>
+            <input type="text" id="jobTitle" placeholder="Job Title" required>
+            <textarea id="jobDescription" placeholder="Job Description" required></textarea>
+            <textarea id="notes" placeholder="Notes"></textarea>
+            <button type="submit">Save Job</button>
+        </form>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.6/axios.min.js"></script>
+</body>
+</html>

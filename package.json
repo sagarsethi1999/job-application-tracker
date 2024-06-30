@@ -1,0 +1,21 @@
+{
+    "name": "job-application-tracker",
+    "version": "1.0.0",
+    "description": "A job application tracking system",
+    "main": "app.js",
+    "scripts": {
+        "start": "nodemon app.js"
+    },
+    "dependencies": {
+        "@sendgrid/mail": "^7.4.0",
+        "bcryptjs": "^2.4.3",
+        "body-parser": "^1.19.0",
+        "cors": "^2.8.5",
+        "dotenv": "^10.0.0",
+        "express": "^4.17.1",
+        "jsonwebtoken": "^8.5.1",
+        "mysql2": "^2.2.5",
+        "nodemon": "^3.1.4",
+        "sequelize": "^6.6.5"
+    }
+}

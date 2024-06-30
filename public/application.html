@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Application</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script defer src="js/applications.js"></script>
+</head>
+<body>
+    <div class="header">
+        <h1>Log Application</h1>
+    </div>
+    <div class="container">
+        <form id="applicationForm">
+            <input type="text" id="companyName" placeholder="Company Name" required>
+            <input type="text" id="jobTitle" placeholder="Job Title" required>
+            <input type="date" id="applicationDate" required>
+            <select id="status" required>
+                <option value="applied">Applied</option>
+                <option value="interviewed">Interviewed</option>
+                <option value="offered">Offered</option>
+                <option value="rejected">Rejected</option>
+            </select>
+            <textarea id="notes" placeholder="Notes"></textarea>
+            <button type="submit">Log Application</button>
+        </form>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.6/axios.min.js"></script>
+</body>
+</html>
