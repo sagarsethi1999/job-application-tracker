@@ -9,7 +9,6 @@ const applicationRoutes = require('./routes/applications');
 const reminderRoutes = require('./routes/reminders');
 const companyRoutes = require('./routes/companies');
 const jobRoutes = require('./routes/jobs');
-const noteRoutes = require('./routes/notes');
 
 const app = express();
 
@@ -25,11 +24,17 @@ app.use('/api/applications', applicationRoutes);
 app.use('/api/reminders', reminderRoutes);
 app.use('/api/companies', companyRoutes);
 app.use('/api/jobs', jobRoutes);
-app.use('/api/notes', noteRoutes);
+
+
+app.use((err, req, res, next) => {
+    console.error('Global error handler:', err);
+    res.status(500).json({ message: 'Internal Server Error' });
+});
 
 // Database connection and sync
 connectDB();
-sequelize.sync({ force: false });
+sequelize
+.sync({ force:false});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

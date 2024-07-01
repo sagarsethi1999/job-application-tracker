@@ -2,6 +2,10 @@ const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/database');
 
 const Job = sequelize.define('Job', {
+    companyName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
     jobTitle: {
         type: DataTypes.STRING,
         allowNull: false,

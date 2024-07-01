@@ -5,7 +5,7 @@ dotenv.config();
 
 const authMiddleware = async (req, res, next) => {
     console.log('Inside middleware');
-    console.log(req.headers);
+   
     const token = req.headers['authorization'];
     // const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
     console.log(token);

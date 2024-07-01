@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -18,5 +18,61 @@
         <a href="note.html">Add Note</a>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.6/axios.min.js"></script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Dashboard</h1>
+        <button id="profileButton">Profile</button>
+    </div>
+    <div class="container">
+        <div class="section">
+            <div class="section-header">
+                <h2>Log Application</h2>
+                <button id="logApplicationButton">Add Application</button>
+            </div>
+            <div class="section-content" id="applicationsSection">
+                <!-- Applications data will be loaded here -->
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-header">
+                <h2>Companies</h2>
+                <button id="addCompanyButton">Add Company</button>
+            </div>
+            <div class="section-content" id="companiesSection">
+                <!-- Companies data will be loaded here -->
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-header">
+                <h2>Saved Jobs</h2>
+                <button id="saveJobButton">Save Job</button>
+            </div>
+            <div class="section-content" id="jobsSection">
+                <!-- Jobs data will be loaded here -->
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-header">
+                <h2>Reminders</h2>
+                <button id="setReminderButton">Set Reminder</button>
+            </div>
+            <div class="section-content" id="remindersSection">
+                <!-- Reminders data will be loaded here -->
+            </div>
+        </div>
+       
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.6/axios.min.js"></script>
+    <script src="js/dashboard.js"></script>
 </body>
 </html>

@@ -3,14 +3,14 @@ const token = localStorage.getItem('token');
 
 document.getElementById('jobForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const companyId = document.getElementById('companyId').value;
+    const companyName = document.getElementById('companyName').value;
     const jobTitle = document.getElementById('jobTitle').value;
     const jobDescription = document.getElementById('jobDescription').value;
     const notes = document.getElementById('notes').value;
 
     try {
         const response = await axios.post(`${apiUrl}/jobs`, {
-            companyId,
+            companyName,
             jobTitle,
             jobDescription,
             notes

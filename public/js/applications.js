@@ -27,6 +27,7 @@ document.getElementById('applicationForm').addEventListener('submit', async (e) 
             alert('Application added successfully!');
             window.location.href = 'dashboard.html';
         } else {
+            console.log('here is the error');
             alert('Failed to add application. Please try again.');
         }
     } catch (error) {
