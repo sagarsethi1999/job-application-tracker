@@ -7,7 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const addCompanyButton = document.getElementById('addCompanyButton');
     const saveJobButton = document.getElementById('saveJobButton');
     const setReminderButton = document.getElementById('setReminderButton');
-    const addNoteButton = document.getElementById('addNoteButton');
+    const searchInput = document.getElementById('searchInput');
+    const filterSelect = document.getElementById('filterSelect');
 
     profileButton.addEventListener('click', () => {
         window.location.href = 'profile.html';
@@ -29,25 +30,39 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'reminder.html';
     });
 
-   
+
 
     loadApplications();
     loadCompanies();
     loadJobs();
     loadReminders();
 
+    searchInput.addEventListener('input', loadApplications);
+    filterSelect.addEventListener('change', loadApplications);
+
     async function loadApplications() {
         try {
+            const searchQuery = searchInput.value.trim().toLowerCase();
+            const filterStatus = filterSelect.value;
             const response = await axios.get(`${apiUrl}/applications`, {
                 headers: { 'Authorization': token }
             });
-            const applications = response.data.applications.map(application => {
-                const modifiedApplication = {
-                    ...application,
-                    applicationDate: new Date(application.applicationDate).toISOString().split('T')[0]
-                };
-                return modifiedApplication;
-            });
+            let applications = response.data.applications.map(application => ({
+                ...application,
+                applicationDate: new Date(application.applicationDate).toISOString().split('T')[0]
+            }));
+
+            // Filter applications based on search query and filter status
+            if (searchQuery) {
+                applications = applications.filter(application =>
+                    application.companyName.toLowerCase().includes(searchQuery) ||
+                    application.jobTitle.toLowerCase().includes(searchQuery)
+                );
+            }
+            if (filterStatus !== 'all') {
+                applications = applications.filter(application => application.status === filterStatus);
+            }
+
             displayData('applicationsSection', applications);
         } catch (error) {
             console.error('Error loading applications:', error);
@@ -89,13 +104,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
                 return modifiedreminder;
             });
-            displayData('remindersSection',reminders);
+            
+            displayData('remindersSection', reminders);
         } catch (error) {
             console.error('Error loading reminders:', error);
         }
     }
 
-    
+
     function displayData(sectionId, data) {
         const section = document.getElementById(sectionId);
         if (data.length === 0) {
@@ -118,11 +134,38 @@ document.addEventListener('DOMContentLoaded', () => {
             const row = tbody.insertRow();
             headers.forEach(header => {
                 const cell = row.insertCell();
-                cell.textContent = item[header];
+                if (header === 'status') {
+                    const select = document.createElement('select');
+                    const options = ['applied', 'interview', 'rejected', 'hired'];
+                    options.forEach(option => {
+                        const optionElement = document.createElement('option');
+                        optionElement.value = option;
+                        optionElement.textContent = option;
+                        if (option === item[header]) {
+                            optionElement.selected = true;
+                        }
+                        select.appendChild(optionElement);
+                    });
+                    select.addEventListener('change', async (event) => {
+                        const newStatus = event.target.value;
+                        try {
+                            await axios.put(`${apiUrl}/applications/${item.applicationId}`, { status: newStatus }, {
+                                headers: { 'Authorization': token }
+                            });
+                            item.status = newStatus; // Update local data with new status
+                        } catch (error) {
+                            console.error('Error updating status:', error);
+                        }
+                    });
+                    cell.appendChild(select);
+                } else {
+                    cell.textContent = item[header];
+                }
             });
         });
-
         section.innerHTML = '';
         section.appendChild(table);
     }
+
+    
 });

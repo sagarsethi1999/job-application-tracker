@@ -1,4 +1,5 @@
 const { Application } = require('../models');
+const { Op } = require('sequelize');
 
 const logApplication = async (req, res) => {
     const { companyName, jobTitle, applicationDate, status, notes } = req.body;
@@ -14,13 +15,45 @@ const logApplication = async (req, res) => {
 
 const getApplications = async (req, res) => {
     try {
+        const { search, status } = req.query;
+        const where = { userId: req.user.id };
+        
+        if (search) {
+            where[Op.or] = [
+                { companyName: { [Op.iLike]: `%${search}%` } },
+                { jobTitle: { [Op.iLike]: `%${search}%` } }
+            ];
+        }
+
+        if (status && status !== 'all') {
+            where.status = status;
+        }
+
         const applications = await Application.findAll({
-            where: { userId: req.user.id },
+            where,
             attributes: ['applicationId', 'companyName', 'jobTitle', 'applicationDate', 'status', 'notes']
         });
+
         res.json({ applications });
     } catch (error) {
         res.status(500).json({ message: 'Error retrieving applications', error });
+    }
+};
+
+const updateApplicationStatus = async (req, res) => {
+    const { applicationId } = req.params;
+    const { status } = req.body;
+    try {
+        const application = await Application.findByPk(applicationId);
+        if (application && application.UserId === req.user.id) {
+            application.status = status;
+            await application.save();
+            res.json({ message: 'Status updated successfully', application });
+        } else {
+            res.status(404).json({ message: 'Application not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Error updating status', error });
     }
 };
 
@@ -54,4 +87,4 @@ const filterApplications = async (req, res) => {
     res.status(501).json({ message: 'Not implemented' });
 };
 
-module.exports = { logApplication,getApplications, uploadAttachment, searchApplications, filterApplications };
+module.exports = { logApplication,getApplications, updateApplicationStatus, uploadAttachment, searchApplications, filterApplications };

@@ -36,13 +36,22 @@
     <div class="container">
         <div class="section">
             <div class="section-header">
-                <h2>Log Application</h2>
+                <h2>Log Application</h2>                
+                <input type="text" id="searchInput" placeholder="Search by keyword, company, or job title">
+                <select id="filterSelect">
+                    <option value="all">All Statuses</option>
+                    <option value="applied">Applied</option>
+                    <option value="interview">Interview</option>
+                    <option value="rejected">Rejected</option>
+                    <option value="hired">Hired</option>
+                </select>
                 <button id="logApplicationButton">Add Application</button>
             </div>
             <div class="section-content" id="applicationsSection">
                 <!-- Applications data will be loaded here -->
             </div>
         </div>
+        
         <div class="section">
             <div class="section-header">
                 <h2>Companies</h2>
@@ -52,6 +61,7 @@
                 <!-- Companies data will be loaded here -->
             </div>
         </div>
+
         <div class="section">
             <div class="section-header">
                 <h2>Saved Jobs</h2>
@@ -61,6 +71,7 @@
                 <!-- Jobs data will be loaded here -->
             </div>
         </div>
+
         <div class="section">
             <div class="section-header">
                 <h2>Reminders</h2>
