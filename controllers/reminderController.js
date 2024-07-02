@@ -67,9 +67,6 @@ setInterval(checkAndSendReminders,  24 * 60 * 60 * 1000);
 
 const setReminder = async (req, res) => {
     const { applicationId, reminderDate } = req.body;
-    console.log('User ID:', req.user.id);
-    console.log('Application ID:', applicationId);
-    console.log('Reminder Date:', reminderDate);
 
     try {
         const reminder = await Reminder.create({ 
@@ -86,7 +83,7 @@ const setReminder = async (req, res) => {
 const getReminders = async (req, res) => {
     try {
         const reminders = await Reminder.findAll({ where: { UserId: req.user.id }, attributes: ['applicationId', 'reminderDate'] });
-        console.log(reminders);
+        
         res.json({ reminders });
     } catch (error) {
         res.status(500).json({ message: 'Error retrieving reminders', error });

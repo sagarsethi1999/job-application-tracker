@@ -10,16 +10,20 @@ document.getElementById('applicationForm').addEventListener('submit', async (e) 
     const notes = document.getElementById('notes').value;
 
     try {
-        const response = await axios.post(`${apiUrl}/applications`, {
-            companyName,
-            jobTitle,
-            applicationDate,
-            status,
-            notes
-        }, {
+       
+        const formData = new FormData();
+        formData.append('companyName', companyName);
+        formData.append('jobTitle', jobTitle);
+        formData.append('applicationDate', applicationDate);
+        formData.append('status', status);
+        formData.append('notes', notes);
+        formData.append('resume', document.getElementById('resume').files[0]);
+        formData.append('coverLetter', document.getElementById('coverLetter').files[0]);
+
+        const response = await axios.post(`${apiUrl}/applications`, formData, {
             headers: {
                 'Authorization': token,
-                'Content-Type': 'application/json'
+                'Content-Type': 'multipart/form-data'
             }
         });
 
@@ -27,12 +31,11 @@ document.getElementById('applicationForm').addEventListener('submit', async (e) 
             alert('Application added successfully!');
             window.location.href = 'dashboard.html';
         } else {
-            console.log('here is the error');
+            console.log('Here is the error:', response.data.message);
             alert('Failed to add application. Please try again.');
         }
     } catch (error) {
         alert('An error occurred. Please try again.');
-        console.error(error);
+        console.error('Error:', error);
     }
 });
-

@@ -12,14 +12,12 @@ const addCompany = async (req, res) => {
 
 
 const getCompanies = async (req, res) => {
-    console.log(' in get companies');
     try {
         const companies = await Company.findAll({
             where: { userId: req.user.id },
             attributes: ['companyId', 'name', 'contactDetails', 'companySize', 'industry', 'notes']
         });
         res.json({ companies });
-        console.log({ companies });
     } catch (error) {
         res.status(500).json({ message: 'Error retrieving companies', error });
     }

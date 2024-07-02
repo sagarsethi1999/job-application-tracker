@@ -152,13 +152,21 @@ document.addEventListener('DOMContentLoaded', () => {
                             await axios.put(`${apiUrl}/applications/${item.applicationId}`, { status: newStatus }, {
                                 headers: { 'Authorization': token }
                             });
-                            item.status = newStatus; // Update local data with new status
+                            item.status = newStatus; 
                         } catch (error) {
                             console.error('Error updating status:', error);
                         }
                     });
                     cell.appendChild(select);
-                } else {
+                }
+                 else if (header === 'resumeUrl' || header === 'coverLetterUrl') {
+                    const link = document.createElement('a');
+                    link.href = item[header];
+                    link.target = '_blank';
+                    link.textContent = 'View File';
+                    cell.appendChild(link);
+                } 
+                else {
                     cell.textContent = item[header];
                 }
             });

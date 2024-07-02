@@ -12,7 +12,7 @@
         <h1>Log Application</h1>
     </div>
     <div class="container">
-        <form id="applicationForm">
+        <form id="applicationForm" enctype="multipart/form-data"> <!-- enctype attribute is crucial for file uploads -->
             <input type="text" id="companyName" placeholder="Company Name" required>
             <input type="text" id="jobTitle" placeholder="Job Title" required>
             <input type="date" id="applicationDate" required>
@@ -23,6 +23,10 @@
                 <option value="rejected">Rejected</option>
             </select>
             <textarea id="notes" placeholder="Notes"></textarea>
+            <label for="resume"> Add Your Resume</label>
+            <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx,.jpeg,.jpg,.png"> <!-- Acceptable file types -->
+            <label for="coverLetter"> Add Your Cover Letter</label>
+            <input type="file" id="coverLetter" name="coverLetter" accept=".pdf,.doc,.docx,.jpeg,.jpg,.png">
             <button type="submit">Log Application</button>
         </form>
     </div>

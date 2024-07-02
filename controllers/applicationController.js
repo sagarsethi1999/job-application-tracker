@@ -1,23 +1,54 @@
 const { Application } = require('../models');
 const { Op } = require('sequelize');
 
+// const logApplication = async (req, res) => {
+//     const { companyName, jobTitle, applicationDate, status, notes } = req.body;
+//     try {
+//         const application = await Application.create({ companyName, jobTitle, applicationDate, status, notes, UserId: req.user.id });
+
+//         res.status(201).json({ message: 'Application logged successfully', application });
+//     } catch (error) {
+//         res.status(500).json({ message: 'Error logging application', error: error.message });
+//     }
+// };
 const logApplication = async (req, res) => {
     const { companyName, jobTitle, applicationDate, status, notes } = req.body;
+    console.log(companyName);
+
     try {
-        const application = await Application.create({ companyName, jobTitle, applicationDate, status, notes, UserId: req.user.id });
         
+        const resume = req.files['resume'][0];
+        const coverLetter = req.files['coverLetter'][0];
+      
+
+        const application = await Application.create({
+            companyName,
+            jobTitle,
+            applicationDate,
+            status,
+            notes,
+            resumeUrl: resume.path,
+            coverLetterUrl: coverLetter.path,
+            UserId: req.user.id 
+        });
+        
+
         res.status(201).json({ message: 'Application logged successfully', application });
     } catch (error) {
         res.status(500).json({ message: 'Error logging application', error: error.message });
     }
-};
+}
+
+
+
+
 
 
 const getApplications = async (req, res) => {
     try {
         const { search, status } = req.query;
         const where = { userId: req.user.id };
-        
+
         if (search) {
             where[Op.or] = [
                 { companyName: { [Op.iLike]: `%${search}%` } },
@@ -31,7 +62,7 @@ const getApplications = async (req, res) => {
 
         const applications = await Application.findAll({
             where,
-            attributes: ['applicationId', 'companyName', 'jobTitle', 'applicationDate', 'status', 'notes']
+            attributes: ['applicationId', 'companyName', 'jobTitle', 'applicationDate', 'status', 'notes','resumeUrl','coverLetterUrl']
         });
 
         res.json({ applications });
@@ -57,34 +88,6 @@ const updateApplicationStatus = async (req, res) => {
     }
 };
 
-const uploadAttachment = async (req, res) => {
-    // Implement file upload logic
-    res.status(501).json({ message: 'Not implemented' });
-    
-};
 
-const searchApplications = async (req, res) => {
-    const { keyword } = req.query;
-    try {
-        const applications = await Application.findAll({
-            where: {
-                UserId: req.user.id,
-                [Sequelize.Op.or]: [
-                    { companyName: { [Sequelize.Op.like]: `%${keyword}%` } },
-                    { jobTitle: { [Sequelize.Op.like]: `%${keyword}%` } },
-                    { notes: { [Sequelize.Op.like]: `%${keyword}%` } }
-                ]
-            }
-        });
-        res.json({ applications });
-    } catch (error) {
-        res.status(500).json({ message: 'Error searching applications', error });
-    }
-};
 
-const filterApplications = async (req, res) => {
-    const { status, dateRange } = req.query;
-    res.status(501).json({ message: 'Not implemented' });
-};
-
-module.exports = { logApplication,getApplications, updateApplicationStatus, uploadAttachment, searchApplications, filterApplications };
+module.exports = { logApplication, getApplications, updateApplicationStatus };

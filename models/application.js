@@ -27,6 +27,12 @@ const Application = sequelize.define('Application', {
     notes: {
         type: DataTypes.TEXT,
     },
+    resumeUrl: {
+        type: DataTypes.STRING, 
+      },
+      coverLetterUrl: {
+        type: DataTypes.STRING, 
+      },
 });
 
 module.exports = Application;
